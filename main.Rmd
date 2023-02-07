@@ -1,11 +1,13 @@
 ---
-title: "Risk ratio regression - simple concept and computation"
-author: "Frank Popham"
-date: "07/02/2023"
-output: pdf_document
-bibliography: references.bib
+title: "Risk ratio regression - simple concept and simple computation"
+author: "Frank Popham (frank.popham@protonmail.com)"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    keep_md: yes
 csl: ije.csl
-email: frank.popham@protonmail.com
+bibliography: references.bib
 ---
 
 ```{r setup, include=FALSE}
@@ -17,23 +19,25 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Packages via cran
 
-library(tidyverse) 
-library(marginaleffects) 
-library(gt)
+library(tidyverse) # version 1.3.2
+library(marginaleffects) # version 0.9.0
+library(gt) # version 0.8.0
+
 ```
+
 Dear Editors,
 
-A new IJE paper states in its title that "Risk ratio regression - simple concept yet complex computation" [@mittinty2022]. This is only true if one wants to read the risk ratio directly from a model coefficient. Given a binary outcome and binary exposure as in the aforementioned paper, a logistic regression is the "natural" choice. While its coefficients will be (log) odds ratios, it is simple to derive a number of other effect measures including the risk ratio. This can be done easily using modern software such as R and Stata.
+A new IJE paper states in its title that "Risk ratio regression - simple concept yet complex computation" [@mittinty2022]. This is only true if one wants to read the risk ratio directly from the coefficients of your model. Given a binary outcome and binary exposure as in the aforementioned paper, a logistic regression is the "natural" choice. While its coefficients will be (log) odds ratios, it is simple to derive a number of other effect measures including the risk ratio. This can be done easily using modern software such as R (see accompanying code).
 
 In the paper under discussion the risk of weight gain relative to quitting smoking or not was studied. Using standardization (g formula) [@hernan2020], I easily estimate a risk ratio . The method is simple,
 
 1)  fit the model of outcome by exposure and confounders using a logistic regression model.
 
-2)  from this model predict for each person the probability of the outcome treating everyone as all exposed (E) and then everyone as not exposed (NE) (everyone quit or no-one quit in our example).
+2)  from this model predict for each person the probability of the outcome treating everyone as exposed (E) and then everyone as not exposed (NE) (everyone quit or no-one quit in our example).
 
 3)  Average these probabilities for each of the two scenarios. We can then compare these two average predictions to obtain an absolute difference (E-NE), the risk ratio (E/NE), or the odds ratio (E/(1-E)) / (NE/(1-NE)). See Table 1.
 
-The first stage retains the advantages of a logistic model for a binary exposure in that the model usually converges and predicted probabilities will be in the range of 0 to 1. The second and third stage avoid non-collapsibility as we predict probabilities (collapsible) rather than odds (non-collapsible) when averaging.
+The first stage retains the advantages of a logistic model for a binary exposure in that the model usually converges and predicted probabilities will be in the range of 0 to 1. The second and third stage avoid non-collapsibility as we predict probabilities (collapsible) rather than odds (non-collapsible) before averaging across the strata from the stage 1 model.
 
 ```{r dataset, include=FALSE}
 # code source 
@@ -70,7 +74,7 @@ nd <- nd %>%
 
 ```
 
-```{r standarisation, echo=FALSE}
+```{r standardisation, echo=FALSE}
 # complete cases 
 
 nd <- nd %>% 
@@ -93,7 +97,7 @@ m_stand_or <- avg_comparisons(model1, type="response", variables="qsmk", newdata
 table1 <- bind_rows("Absolute"=m_stand_abs, "Difference"=m_stand_dif, "Risk ratio"=m_stand_rr, 
 "Odds ratio"=m_stand_or, .id="Effect") %>%
  select(Effect, qsmk, estimate, conf.low, conf.high) %>%
-mutate(qsmk=c("No %", "Yes %", "Yes-No %", "Yes/No", "(Yes/(100%-Yes)) / (No/(100%-No))"))  
+mutate(qsmk=c("No", "Yes", "Yes-No", "Yes/No", "(Yes/(100%-Yes)) / (No/(100%-No))"))  
 
 gt(table1, rowname_col = "Effect") %>%
    cols_label(
@@ -106,7 +110,8 @@ gt(table1, rowname_col = "Effect") %>%
     columns = 3:5,
     rows=1:3,
     scale_by=100,
-    decimals = 1
+    decimals = 1,
+    pattern = "{x}%"
   ) %>%
   fmt_number(
     columns = 3:5,
@@ -128,7 +133,18 @@ It should be noted that the odds ratio from the stage 1 model (`r round(exp(mode
 
 In conclusion the risk ratio is easily obtainable from a logistic regression. Being clear about whether we are reporting marginal and conditional estimates is another important consideration and authors should be explicit about the effect measure reported.
 
-Best wishes, Frank Popham
+Best wishes,
+
+Frank Popham
+
+
 
 #### References
+
+
+
+
+
+
+
 

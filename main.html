@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Frank Popham (frank.popham@protonmail.com)" />
 
-<meta name="date" content="2023-07-02" />
+<meta name="date" content="2023-02-07" />
 
-<title>Risk ratio regression - simple concept and computation</title>
+<title>Risk ratio regression - simple concept and simple computation</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -1643,24 +1644,22 @@ display: none;
 
 
 <h1 class="title toc-ignore">Risk ratio regression - simple concept and
-computation</h1>
-<h4 class="author">Frank Popham</h4>
-<h4 class="date">07/02/2023</h4>
+simple computation</h1>
+<h4 class="author">Frank Popham (<a href="mailto:frank.popham@protonmail.com" class="email">frank.popham@protonmail.com</a>)</h4>
+<h4 class="date">2023-02-07</h4>
 
 </div>
 
 
-<div id="letter-to-the-editors" class="section level4">
-<h4>Letter to the editors</h4>
 <p>Dear Editors,</p>
 <p>A new IJE paper states in its title that “Risk ratio regression -
 simple concept yet complex computation”<span class="citation"><sup>1</sup></span>. This is only true if one wants to
-read the risk ratio directly from a model coefficient. Given a binary
-outcome and binary exposure as in the aforementioned paper, a logistic
-regression is the “natural” choice. While its coefficients will be (log)
-odds ratios, it is simple to derive a number of other effect measures
-including the risk ratio and this can be done easily using modern
-software such as R and Stata.</p>
+read the risk ratio directly from the coefficients of your model. Given
+a binary outcome and binary exposure as in the aforementioned paper, a
+logistic regression is the “natural” choice. While its coefficients will
+be (log) odds ratios, it is simple to derive a number of other effect
+measures including the risk ratio. This can be done easily using modern
+software such as R (see accompanying code).</p>
 <p>In the paper under discussion the risk of weight gain relative to
 quitting smoking or not was studied. Using standardization (g
 formula)<span class="citation"><sup>2</sup></span>, I easily estimate a
@@ -1669,7 +1668,7 @@ risk ratio . The method is simple,</p>
 <li><p>fit the model of outcome by exposure and confounders using a
 logistic regression model.</p></li>
 <li><p>from this model predict for each person the probability of the
-outcome treating everyone as all exposed (E) and then everyone as not
+outcome treating everyone as exposed (E) and then everyone as not
 exposed (NE) (everyone quit or no-one quit in our example).</p></li>
 <li><p>Average these probabilities for each of the two scenarios. We can
 then compare these two average predictions to obtain an absolute
@@ -1680,12 +1679,13 @@ difference (E-NE), the risk ratio (E/NE), or the odds ratio (E/(1-E)) /
 binary exposure in that the model usually converges and predicted
 probabilities will be in the range of 0 to 1. The second and third stage
 avoid non-collapsibility as we predict probabilities (collapsible)
-rather than odds (non-collapsible) when averaging.</p>
-<div id="zubwoxdrcr" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+rather than odds (non-collapsible) before averaging across the strata
+from the stage 1 model.</p>
+<div id="mhbcmnfegx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
-#zubwoxdrcr .gt_table {
+#mhbcmnfegx .gt_table {
 display: table;
 border-collapse: collapse;
 margin-left: auto;
@@ -1709,7 +1709,7 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_heading {
+#mhbcmnfegx .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1720,11 +1720,11 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_caption {
+#mhbcmnfegx .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#zubwoxdrcr .gt_title {
+#mhbcmnfegx .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1735,7 +1735,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#zubwoxdrcr .gt_subtitle {
+#mhbcmnfegx .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1746,12 +1746,12 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#zubwoxdrcr .gt_bottom_border {
+#mhbcmnfegx .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_col_headings {
+#mhbcmnfegx .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1765,7 +1765,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_col_heading {
+#mhbcmnfegx .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1784,7 +1784,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#zubwoxdrcr .gt_column_spanner_outer {
+#mhbcmnfegx .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1795,13 +1795,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#zubwoxdrcr .gt_column_spanner_outer:first-child {
+#mhbcmnfegx .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#zubwoxdrcr .gt_column_spanner_outer:last-child {
+#mhbcmnfegx .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#zubwoxdrcr .gt_column_spanner {
+#mhbcmnfegx .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1812,7 +1812,7 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#zubwoxdrcr .gt_group_heading {
+#mhbcmnfegx .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1837,7 +1837,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#zubwoxdrcr .gt_empty_group_heading {
+#mhbcmnfegx .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1851,13 +1851,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#zubwoxdrcr .gt_from_md > :first-child {
+#mhbcmnfegx .gt_from_md > :first-child {
 margin-top: 0;
 }
-#zubwoxdrcr .gt_from_md > :last-child {
+#mhbcmnfegx .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#zubwoxdrcr .gt_row {
+#mhbcmnfegx .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1875,7 +1875,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#zubwoxdrcr .gt_stub {
+#mhbcmnfegx .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1887,7 +1887,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zubwoxdrcr .gt_stub_row_group {
+#mhbcmnfegx .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1900,10 +1900,10 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#zubwoxdrcr .gt_row_group_first td {
+#mhbcmnfegx .gt_row_group_first td {
 border-top-width: 2px;
 }
-#zubwoxdrcr .gt_summary_row {
+#mhbcmnfegx .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1912,14 +1912,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zubwoxdrcr .gt_first_summary_row {
+#mhbcmnfegx .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_first_summary_row.thick {
+#mhbcmnfegx .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#zubwoxdrcr .gt_last_summary_row {
+#mhbcmnfegx .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1928,7 +1928,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_grand_summary_row {
+#mhbcmnfegx .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1937,7 +1937,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zubwoxdrcr .gt_first_grand_summary_row {
+#mhbcmnfegx .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1946,10 +1946,10 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_striped {
+#mhbcmnfegx .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#zubwoxdrcr .gt_table_body {
+#mhbcmnfegx .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1957,7 +1957,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_footnotes {
+#mhbcmnfegx .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1970,7 +1970,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_footnote {
+#mhbcmnfegx .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-left: 4px;
@@ -1978,7 +1978,7 @@ padding-right: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zubwoxdrcr .gt_sourcenotes {
+#mhbcmnfegx .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1991,64 +1991,68 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zubwoxdrcr .gt_sourcenote {
+#mhbcmnfegx .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zubwoxdrcr .gt_left {
+#mhbcmnfegx .gt_left {
 text-align: left;
 }
-#zubwoxdrcr .gt_center {
+#mhbcmnfegx .gt_center {
 text-align: center;
 }
-#zubwoxdrcr .gt_right {
+#mhbcmnfegx .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#zubwoxdrcr .gt_font_normal {
+#mhbcmnfegx .gt_font_normal {
 font-weight: normal;
 }
-#zubwoxdrcr .gt_font_bold {
+#mhbcmnfegx .gt_font_bold {
 font-weight: bold;
 }
-#zubwoxdrcr .gt_font_italic {
+#mhbcmnfegx .gt_font_italic {
 font-style: italic;
 }
-#zubwoxdrcr .gt_super {
+#mhbcmnfegx .gt_super {
 font-size: 65%;
 }
-#zubwoxdrcr .gt_footnote_marks {
+#mhbcmnfegx .gt_footnote_marks {
 font-style: italic;
 font-weight: normal;
 font-size: 75%;
 vertical-align: 0.4em;
 }
-#zubwoxdrcr .gt_asterisk {
+#mhbcmnfegx .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#zubwoxdrcr .gt_indent_1 {
+#mhbcmnfegx .gt_indent_1 {
 text-indent: 5px;
 }
-#zubwoxdrcr .gt_indent_2 {
+#mhbcmnfegx .gt_indent_2 {
 text-indent: 10px;
 }
-#zubwoxdrcr .gt_indent_3 {
+#mhbcmnfegx .gt_indent_3 {
 text-indent: 15px;
 }
-#zubwoxdrcr .gt_indent_4 {
+#mhbcmnfegx .gt_indent_4 {
 text-indent: 20px;
 }
-#zubwoxdrcr .gt_indent_5 {
+#mhbcmnfegx .gt_indent_5 {
 text-indent: 25px;
 }
 </style>
 <table class="gt_table">
-  <caption>Table 1  - Losing weight by quitting smoking</caption>
-  
+  <thead class="gt_header">
+    <tr>
+      <td colspan="5" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Table 1  - Losing weight by quitting smoking</td>
+    </tr>
+    
+  </thead>
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id></th>
@@ -2060,20 +2064,20 @@ text-indent: 25px;
   </thead>
   <tbody class="gt_table_body">
     <tr><th id="stub_1_1" scope="row" class="gt_row gt_left gt_stub">Absolute</th>
-<td headers="stub_1_1 qsmk" class="gt_row gt_left">No %</td>
-<td headers="stub_1_1 estimate" class="gt_row gt_right">46.4</td>
-<td headers="stub_1_1 conf.low" class="gt_row gt_right">43.5</td>
-<td headers="stub_1_1 conf.high" class="gt_row gt_right">49.2</td></tr>
+<td headers="stub_1_1 qsmk" class="gt_row gt_left">No</td>
+<td headers="stub_1_1 estimate" class="gt_row gt_right">46.4%</td>
+<td headers="stub_1_1 conf.low" class="gt_row gt_right">43.5%</td>
+<td headers="stub_1_1 conf.high" class="gt_row gt_right">49.2%</td></tr>
     <tr><th id="stub_1_2" scope="row" class="gt_row gt_left gt_stub">Absolute</th>
-<td headers="stub_1_2 qsmk" class="gt_row gt_left">Yes %</td>
-<td headers="stub_1_2 estimate" class="gt_row gt_right">60.7</td>
-<td headers="stub_1_2 conf.low" class="gt_row gt_right">55.9</td>
-<td headers="stub_1_2 conf.high" class="gt_row gt_right">65.5</td></tr>
+<td headers="stub_1_2 qsmk" class="gt_row gt_left">Yes</td>
+<td headers="stub_1_2 estimate" class="gt_row gt_right">60.7%</td>
+<td headers="stub_1_2 conf.low" class="gt_row gt_right">55.9%</td>
+<td headers="stub_1_2 conf.high" class="gt_row gt_right">65.5%</td></tr>
     <tr><th id="stub_1_3" scope="row" class="gt_row gt_left gt_stub">Difference</th>
-<td headers="stub_1_3 qsmk" class="gt_row gt_left">Yes-No %</td>
-<td headers="stub_1_3 estimate" class="gt_row gt_right">14.3</td>
-<td headers="stub_1_3 conf.low" class="gt_row gt_right">8.7</td>
-<td headers="stub_1_3 conf.high" class="gt_row gt_right">20.0</td></tr>
+<td headers="stub_1_3 qsmk" class="gt_row gt_left">Yes-No</td>
+<td headers="stub_1_3 estimate" class="gt_row gt_right">14.3%</td>
+<td headers="stub_1_3 conf.low" class="gt_row gt_right">8.7%</td>
+<td headers="stub_1_3 conf.high" class="gt_row gt_right">20.0%</td></tr>
     <tr><th id="stub_1_4" scope="row" class="gt_row gt_left gt_stub">Risk ratio</th>
 <td headers="stub_1_4 qsmk" class="gt_row gt_left">Yes/No</td>
 <td headers="stub_1_4 estimate" class="gt_row gt_right">1.31</td>
@@ -2098,8 +2102,8 @@ log odds at stage 2 rather than the probability.</p>
 regression. Being clear about whether we are reporting marginal and
 conditional estimates is another important consideration and authors
 should be explicit about the effect measure reported.</p>
-<p>Best wishes, Frank Popham</p>
-</div>
+<p>Best wishes,</p>
+<p>Frank Popham</p>
 <div id="references" class="section level4 unnumbered">
 <h4 class="unnumbered">References</h4>
 <div id="refs" class="references csl-bib-body">
