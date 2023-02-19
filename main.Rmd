@@ -22,20 +22,21 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) # version 1.3.2
 library(marginaleffects) # version 0.9.0
 library(gt) # version 0.8.0
+library(naniar) # version 1.0.0
 
 ```
 
 Dear Editors,
 
-A new IJE paper states in its title that "Risk ratio regression - simple concept yet complex computation" [@mittinty2022]. This is only true if one wants to read the risk ratio directly from the coefficients of your model. Given a binary outcome and binary exposure as in the aforementioned paper, a logistic regression is the "natural" choice. While its coefficients will be (log) odds ratios, it is simple to derive a number of other effect measures including the risk ratio. This can be done easily using modern software such as R (see accompanying code).
+A new IJE paper states in its title that "Risk ratio regression - simple concept yet complex computation" [@mittinty2022]. This is only true if one wants to read the risk ratio directly from the coefficients of your model. Given a binary outcome and binary exposure as in the aforementioned paper, a logistic regression is the "natural" choice. While its coefficients will be (log) odds ratios, it is simple to derive a number of other effect measures including the risk ratio. This can be done easily using modern software such as R ([see accompanying code](https://github.com/frankpopham/rr/blob/master/main.R)).
 
-In the paper under discussion the risk of weight gain relative to quitting smoking or not was studied. Using standardization (g formula) [@hernan2020], I easily estimate a risk ratio . The method is simple,
+In the paper under discussion the risk of weight gain relative to quitting smoking or not was studied. Using standardization (g formula) [@hernan2020], I easily estimate a risk ratio. The three stage method is simple,
 
-1)  fit the model of outcome by exposure and confounders using a logistic regression model.
+Stage 1) fit the model of outcome by exposure and confounders using a logistic regression model.
 
-2)  from this model predict for each person the probability of the outcome treating everyone as exposed (E) and then everyone as not exposed (NE) (everyone quit or no-one quit in our example).
+Stage 2) from this model predict for each person the probability of the outcome treating everyone as exposed (E) and then everyone as not exposed (NE) (everyone quit or no-one quit in our example).
 
-3)  Average these probabilities for each of the two scenarios. We can then compare these two average predictions to obtain an absolute difference (E-NE), the risk ratio (E/NE), or the odds ratio (E/(1-E)) / (NE/(1-NE)). See Table 1.
+Stage 3) Average these probabilities for each of the two scenarios. We can then compare these two average predictions to obtain an absolute difference (E-NE), the risk ratio (E/NE), or the odds ratio (E/(1-E)) / (NE/(1-NE)). See Table 1.
 
 The first stage retains the advantages of a logistic model for a binary exposure in that the model usually converges and predicted probabilities will be in the range of 0 to 1. The second and third stage avoid non-collapsibility as we predict probabilities (collapsible) rather than odds (non-collapsible) before averaging across the strata from the stage 1 model.
 
@@ -75,7 +76,9 @@ nd <- nd %>%
 ```
 
 ```{r standardisation, echo=FALSE}
-# complete cases 
+# complete cases as missing
+
+nd_miss <- vis_miss(nd)
 
 nd <- nd %>% 
   filter(complete.cases(.))
@@ -129,22 +132,12 @@ c_stand_or <- avg_comparisons(model1, type="link", variables="qsmk", newdata = d
 
 ```
 
-It should be noted that the odds ratio from the stage 1 model (`r round(exp(model1[["coefficients"]][["qsmk"]]), digits=2)`) is not the same as in Table 1 as the former is a conditional odds ratio while the latter (and all effects in Table 1) are marginal. We can use standardization to obtain the stage 1 model odds ratio by predicting the log odds at stage 2 rather than the probability.
+It should be noted that the odds ratio from the stage 1 model (`r round(exp(model1[["coefficients"]][["qsmk"]]), digits=2)`) is not the same as in Table 1 as the former is a conditional odds ratio while the latter (and all effects in Table 1) are marginal. We can use standardization to obtain the odds ratio from the stage 1 model by predicting the log odds at stage 2 rather than the probability and modifying the calculations at stage 3 to work with log odds.
 
-In conclusion the risk ratio is easily obtainable from a logistic regression. Being clear about whether we are reporting marginal and conditional estimates is another important consideration and authors should be explicit about the effect measure reported.
+In conclusion a summary risk ratio is easily obtainable from a logistic regression. Being clear about whether we are reporting marginal and conditional estimates is another important consideration and authors should be explicit about the effect measure reported.
 
 Best wishes,
 
 Frank Popham
 
-
-
 #### References
-
-
-
-
-
-
-
-

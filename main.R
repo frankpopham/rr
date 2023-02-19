@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) # version 1.3.2
 library(marginaleffects) # version 0.9.0
 library(gt) # version 0.8.0
+library(naniar) # version 1.0.0
 
 
 
@@ -49,7 +50,9 @@ nd <- nd %>%
 
 
 ## ----standardisation, echo=FALSE------------------------------------------------------------------------------------------
-# complete cases 
+# complete cases as missing
+
+nd_miss <- vis_miss(nd)
 
 nd <- nd %>% 
   filter(complete.cases(.))
