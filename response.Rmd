@@ -1,0 +1,56 @@
+---
+title: "Author response"
+author: "Frank Popham"
+date: "`r Sys.Date()`"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Dear Editor,
+
+Many thanks for accepting my letter. Below I confirm that I have made the requested changes. 
+
+* Please provide your letter in docx format. PDF format is not acceptable.
+
+**Done**
+
+Title page:
+* Please change the title of your letter to Risk ratio regression - simple concept yet simple computation
+
+**Done**
+
+* Please provide a title page that includes the title, your name, your affiliation, and a postal address and email address for correspondence.
+
+**Done**
+
+
+Paper:
+* Please change 'software such as R (see accompanying code)' to 'software such as R (see the Supplementary file for accompanying code)'.
+
+**Done**
+
+
+References:
+* Please update reference 1 to :
+Mittinty MN, Lynch J. Reflection on modern methods: risk ratio regression - simple concept yet complex computation. Int J Epidemiol 2022; 52(1): 309–314.
+* Please place a full point at the end of reference 2.
+
+**Done**
+
+Declarations:
+* Please provide the following information in exactly the following order at the end of your paper before the references: Supplementary data (followed by 'Supplementary data are available at IJE online.'); Funding (if any); Acknowledgements (if any); Conflict of interest ("None declared" if there are none).
+
+**Done**
+
+Tables:
+* Please remove your table from your main document and submit it in a separate file designated 'Table'.
+* Please present the confidence interval more conventionally as a range rather than as separate values under 'low' and 'high'.
+* Please spell out CI in a footnote to the table. (ie. 'CI, confidence interval.')
+
+**Done**
+
+
+Many thanks, Frank Popham
